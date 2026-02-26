@@ -1,0 +1,1 @@
+LogToConsole("HELLO KONTOL")
