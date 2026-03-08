@@ -1,19 +1,9 @@
 'use client';
 
-import { ReactLenis } from 'lenis/react';
 import { ReactNode } from 'react';
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
-    return (
-        <ReactLenis root options={{
-            lerp: 0.1,
-            duration: 1.5,
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            touchMultiplier: 2,
-            infinite: false,
-        }}>
-            {children}
-        </ReactLenis>
-    );
+    // Removed Lenis — native browser scrolling is lighter and works well with modern browsers.
+    // The CSS scroll-behavior: smooth in globals.css handles smooth anchor scrolling.
+    return <>{children}</>;
 }

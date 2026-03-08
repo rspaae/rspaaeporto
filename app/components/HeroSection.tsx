@@ -8,13 +8,12 @@ export default function HeroSection() {
     const nameRef = useRef<HTMLDivElement>(null);
     const subtitleRef = useRef<HTMLParagraphElement>(null);
     const ctaRef = useRef<HTMLDivElement>(null);
-    const svgRef = useRef<SVGSVGElement>(null);
 
     const name = 'Rafa Ramdani';
     const subtitle = 'Creative Developer & Designer';
 
     useEffect(() => {
-        // Staggered letter reveal
+        // Staggered letter reveal — runs once on mount, not looping
         if (nameRef.current) {
             const letters = nameRef.current.querySelectorAll('.hero-letter');
             anime({
@@ -28,7 +27,7 @@ export default function HeroSection() {
             });
         }
 
-        // Subtitle fade in
+        // Subtitle fade in — runs once
         if (subtitleRef.current) {
             anime({
                 targets: subtitleRef.current,
@@ -40,7 +39,7 @@ export default function HeroSection() {
             });
         }
 
-        // CTA button appear
+        // CTA button appear — runs once
         if (ctaRef.current) {
             anime({
                 targets: ctaRef.current,
@@ -51,53 +50,7 @@ export default function HeroSection() {
                 delay: 1600,
             });
         }
-
-        // SVG morphing animation
-        if (svgRef.current) {
-            const paths = svgRef.current.querySelectorAll('.morph-path');
-
-            // Rotate the whole SVG slowly
-            anime({
-                targets: svgRef.current,
-                rotate: [0, 360],
-                duration: 60000,
-                easing: 'linear',
-                loop: true,
-            });
-
-            // Morph each path
-            paths.forEach((path, i) => {
-                const shapes = [
-                    'M100,200 C150,100 250,100 300,200 C350,300 250,350 200,300 C150,250 50,300 100,200',
-                    'M150,150 C200,50 350,100 300,200 C250,300 350,350 250,300 C150,250 100,250 150,150',
-                    'M120,180 C180,80 320,120 280,220 C240,320 300,380 200,320 C100,260 60,280 120,180',
-                ];
-                anime({
-                    targets: path,
-                    d: [
-                        { value: shapes[(i + 1) % shapes.length] },
-                        { value: shapes[(i + 2) % shapes.length] },
-                        { value: shapes[i % shapes.length] },
-                    ],
-                    easing: 'easeInOutSine',
-                    duration: 8000,
-                    delay: i * 2000,
-                    loop: true,
-                });
-
-                anime({
-                    targets: path,
-                    opacity: [
-                        { value: 0.15, duration: 4000 },
-                        { value: 0.3, duration: 4000 },
-                    ],
-                    easing: 'easeInOutSine',
-                    direction: 'alternate',
-                    loop: true,
-                    delay: i * 1000,
-                });
-            });
-        }
+        // No SVG morphing — replaced with pure CSS animation below
     }, []);
 
     return (
@@ -106,15 +59,13 @@ export default function HeroSection() {
             className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden"
             style={{ zIndex: 2 }}
         >
-            {/* SVG Morphing Background */}
+            {/* SVG Background — Pure CSS rotation, no anime.js */}
             <svg
-                ref={svgRef}
-                className="absolute w-[600px] h-[600px] md:w-[800px] md:h-[800px] opacity-30"
+                className="absolute w-[600px] h-[600px] md:w-[800px] md:h-[800px] opacity-20"
                 viewBox="0 0 400 400"
-                style={{ zIndex: 0 }}
+                style={{ zIndex: 0, animation: 'spin-slow 60s linear infinite' }}
             >
                 <path
-                    className="morph-path"
                     d="M100,200 C150,100 250,100 300,200 C350,300 250,350 200,300 C150,250 50,300 100,200"
                     fill="none"
                     stroke="url(#grad1)"
@@ -122,20 +73,11 @@ export default function HeroSection() {
                     opacity="0.2"
                 />
                 <path
-                    className="morph-path"
                     d="M150,150 C200,50 350,100 300,200 C250,300 350,350 250,300 C150,250 100,250 150,150"
                     fill="none"
                     stroke="url(#grad2)"
                     strokeWidth="0.8"
                     opacity="0.15"
-                />
-                <path
-                    className="morph-path"
-                    d="M120,180 C180,80 320,120 280,220 C240,320 300,380 200,320 C100,260 60,280 120,180"
-                    fill="none"
-                    stroke="url(#grad3)"
-                    strokeWidth="0.6"
-                    opacity="0.1"
                 />
                 <defs>
                     <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -146,10 +88,6 @@ export default function HeroSection() {
                         <stop offset="0%" stopColor="#ff00e5" />
                         <stop offset="100%" stopColor="#00f5ff" />
                     </linearGradient>
-                    <linearGradient id="grad3" x1="50%" y1="0%" x2="50%" y2="100%">
-                        <stop offset="0%" stopColor="#8b5cf6" />
-                        <stop offset="100%" stopColor="#ff00e5" />
-                    </linearGradient>
                 </defs>
             </svg>
 
@@ -158,10 +96,13 @@ export default function HeroSection() {
                 {name.split('').map((letter, i) => (
                     <span
                         key={i}
-                        className="hero-letter inline-block text-6xl sm:text-8xl md:text-9xl font-black tracking-tight opacity-0 gradient-text cursor-default"
-                        style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                        className="hero-letter inline-block text-6xl sm:text-8xl md:text-9xl font-black tracking-tight opacity-0 gradient-text cursor-default hero-wave"
+                        style={{
+                            fontFamily: "'Space Grotesk', sans-serif",
+                            animationDelay: `${i * 0.15}s`,
+                        }}
                     >
-                        {letter}
+                        {letter === ' ' ? '\u00A0' : letter}
                     </span>
                 ))}
             </div>

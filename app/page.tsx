@@ -8,6 +8,7 @@ import TechOrbit from './components/TechOrbit';
 import HorizontalProjects from './components/HorizontalProjects';
 import ContactSection from './components/ContactSection';
 import ScrollReveal from './components/ScrollReveal';
+import MarqueeTicker from './components/MarqueeTicker';
 
 export default function Home() {
   return (
@@ -21,6 +22,8 @@ export default function Home() {
 
       {/* Sections */}
       <HeroSection />
+
+      <MarqueeTicker />
 
       <ScrollReveal direction="up" delay={100}>
         <AboutSection />

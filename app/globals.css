@@ -141,15 +141,22 @@ body {
   box-shadow:
     0 0 15px rgba(139, 92, 246, 0.2),
     inset 0 0 15px rgba(139, 92, 246, 0.05);
+  animation: breathe 4s ease-in-out infinite;
 }
 
 /* ===== GRADIENT TEXT ===== */
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-violet), var(--neon-magenta));
+  background: linear-gradient(135deg,
+      var(--neon-cyan),
+      var(--neon-violet),
+      var(--neon-magenta),
+      var(--neon-cyan));
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: shimmer 6s linear infinite;
 }
 
 .gradient-text-alt {
@@ -168,6 +175,26 @@ body {
 }
 
 /* ===== ANIMATIONS ===== */
+
+.hero-wave {
+  animation: heroFloat 3s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+
+  75% {
+    transform: translateY(4px) rotate(-1deg);
+  }
+}
 
 @keyframes float {
 
@@ -221,6 +248,68 @@ body {
   }
 }
 
+@keyframes meshFloat1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(80px, 60px) scale(1.1);
+  }
+}
+
+@keyframes meshFloat2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(-60px, -80px) scale(0.9);
+  }
+}
+
+@keyframes meshFloat3 {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    transform: translate(calc(-50% + 40px), calc(-50% - 40px)) scale(1.15);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: -200% 50%;
+  }
+}
+
+@keyframes breathe {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.15), inset 0 0 15px rgba(139, 92, 246, 0.03);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.35), inset 0 0 25px rgba(139, 92, 246, 0.08);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes socialPulse {
 
   0%,
@@ -233,6 +322,13 @@ body {
     transform: scale(1.15);
     opacity: 0;
   }
+}
+
+/* ===== MARQUEE ===== */
+
+.marquee-track {
+  animation: marquee 20s linear infinite;
+  will-change: transform;
 }
 
 /* ===== HORIZONTAL SCROLL SECTION ===== */

@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import anime from 'animejs';
 import ScrollReveal from './ScrollReveal';
 import TextScramble from './TextScramble';
 
@@ -20,20 +18,6 @@ const techItems = [
 ];
 
 export default function TechOrbit() {
-    const orbitRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (!orbitRef.current) return;
-
-        anime({
-            targets: orbitRef.current,
-            rotateY: [0, 360],
-            easing: 'linear',
-            duration: 30000,
-            loop: true,
-        });
-    }, []);
-
     const radius = 180;
 
     return (
@@ -54,7 +38,7 @@ export default function TechOrbit() {
                     </div>
                 </ScrollReveal>
 
-                {/* 3D Orbit */}
+                {/* 3D Orbit — Pure CSS animation, no JS */}
                 <div className="flex items-center justify-center">
                     <div className="orbit-container relative w-[400px] h-[400px] flex items-center justify-center">
                         {/* Center label */}
@@ -73,11 +57,13 @@ export default function TechOrbit() {
                             <span className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Stack</span>
                         </div>
 
-                        {/* Orbit ring */}
+                        {/* Orbit ring — CSS animation */}
                         <div
-                            ref={orbitRef}
                             className="orbit-ring absolute inset-0"
-                            style={{ transformStyle: 'preserve-3d' }}
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                animation: 'spin-slow 30s linear infinite',
+                            }}
                         >
                             {techItems.map((tech, i) => {
                                 const angle = (i / techItems.length) * 360;
@@ -109,7 +95,6 @@ export default function TechOrbit() {
                                                 {tech.name.slice(0, 2).toUpperCase()}
                                             </span>
                                         </div>
-                                        {/* Tooltip */}
                                         <div
                                             className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap"
                                         >
@@ -132,15 +117,11 @@ export default function TechOrbit() {
                         {/* Orbit ring visual */}
                         <div
                             className="absolute inset-[10%] rounded-full pointer-events-none"
-                            style={{
-                                border: '1px solid rgba(139, 92, 246, 0.1)',
-                            }}
+                            style={{ border: '1px solid rgba(139, 92, 246, 0.1)' }}
                         />
                         <div
                             className="absolute inset-[25%] rounded-full pointer-events-none"
-                            style={{
-                                border: '1px dashed rgba(139, 92, 246, 0.05)',
-                            }}
+                            style={{ border: '1px dashed rgba(139, 92, 246, 0.05)' }}
                         />
                     </div>
                 </div>
